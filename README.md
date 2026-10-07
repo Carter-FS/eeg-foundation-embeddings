@@ -10,6 +10,7 @@ Each model runs in its own Docker container with the correct CUDA/PyTorch versio
 |-------|--------------|------|---------|--------|
 | **LaBraM** | 200 | 11.8 | 2.0.1 | [GitHub](https://github.com/935963004/LaBraM) / [braindecode](https://braindecode.org/) |
 | **REVE** | 512 (base) / 1250 (large) | 12.4 | 2.4.0 | [HuggingFace](https://huggingface.co/brain-bzh/reve-base) |
+| **BENDR** | 512 | 11.8 | 2.0.1 | [GitHub](https://github.com/SPOClab-ca/BENDR) / [braindecode](https://huggingface.co/braindecode/braindecode-bendr) |
 
 ## Quick Start
 
@@ -47,6 +48,19 @@ docker run --gpus all \
   reve-embeddings /data/input /data/output
 ```
 
+### BENDR
+
+BENDR uses the 19 standard 10-20 channels plus a relative amplitude channel. Recordings with fewer than 15 matching channels are skipped, and missing channels are zero-filled. The checkpoint is baked into the image at build time, so no token is needed.
+
+```bash
+docker build -t bendr-embeddings -f bendr/Dockerfile .
+
+docker run --gpus all \
+  -v /path/to/edfs:/data/input \
+  -v /path/to/output:/data/output \
+  bendr-embeddings /data/input /data/output
+```
+
 ## Output Format
 
 Each EDF produces one Zarr store:
@@ -61,7 +75,7 @@ recording.zarr/
 
 ## Configuration
 
-Both models accept a YAML config file and/or CLI overrides:
+All models accept a YAML config file and/or CLI overrides:
 
 ```bash
 docker run --gpus all \
@@ -69,7 +83,7 @@ docker run --gpus all \
   labram-embeddings --config /data/config.yaml --batch-size 8 /data/input /data/output
 ```
 
-See `labram/config.yaml` and `reve/config.yaml` for defaults.
+See `labram/config.yaml`, `reve/config.yaml` and `bendr/config.yaml` for defaults.
 
 ## Development
 
