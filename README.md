@@ -86,3 +86,7 @@ uv run pytest tests/
 
 - Docker with NVIDIA Container Toolkit (`--gpus` support)
 - NVIDIA GPU with sufficient VRAM (4+ GB recommended)
+
+## Licence
+
+The code in this repository is released under the MIT licence (see `LICENSE`). Model weights are downloaded at runtime and are subject to their own licences.
