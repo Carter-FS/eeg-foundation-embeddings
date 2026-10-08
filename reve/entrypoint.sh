@@ -154,9 +154,11 @@ fi
 
 PYTHON_ARGS=""
 
-if [[ -n "$CONFIG_FILE" ]]; then
-    PYTHON_ARGS="--config ${CONFIG_FILE}"
+# Default to bundled config if none specified
+if [[ -z "$CONFIG_FILE" ]]; then
+    CONFIG_FILE="/app/reve/config.yaml"
 fi
+PYTHON_ARGS="--config ${CONFIG_FILE}"
 
 if [[ -n "$HF_TOKEN_ARG" ]]; then
     PYTHON_ARGS="${PYTHON_ARGS} --hf-token ${HF_TOKEN_ARG}"
